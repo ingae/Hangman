@@ -2,13 +2,19 @@ import scala.util.Random
 
 class WordList {
   val random = new Random
-  def allWords: Seq[String] = {
-    // TODO: Read from file a list of words
-    Seq("apple", "orange", "dictionary", "homework", "project")
+
+  def readWords(fileName: String): Seq[String] = {
+    val source = io.Source.fromFile(fileName)
+    val words = source.getLines.toSeq
+    source.close()
+    words
   }
 
   def getWord(difficulty: String): String = {
-    // TODO: Filter words by difficulty
+    val allWords: Seq[String] = difficulty match {
+      case "easy" => readWords("easy-words.txt")
+      case "hard" => readWords("hard-words.txt")
+    }
     allWords(random.nextInt(allWords.size))
   }
 }
