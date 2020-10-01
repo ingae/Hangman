@@ -43,7 +43,7 @@ object Hangman extends App {
         // Letter is part of word -> mark it in wordProgress
         wordProgress = wordToGuess.map(c => if (guesses.contains(c)) c else "_").mkString("")
       } else {
-        // Letter is not found in word -> increment badGuessCount
+        // Letter is not found in word -> decrement wrongGuessesLeft
         wrongGuessesLeft -= 1
       }
     }
