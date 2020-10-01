@@ -1,7 +1,10 @@
 object Hangman extends App {
   // Description of the game
   println("Hangman game.\nHow to play:\nGuess letters until you can figure out the word. If it takes you too many guesses, you lose.")
-  // Player needs to choose difficulty of word -> easy or hard
+  /**
+   * Ask difficulty from user until the user chooses one of allowed options
+   * @return difficulty level - either "easy" or "hard"
+   */
   def getDifficultyFromUser(): String = {
     var difficulty = "unknown"
     do {
@@ -10,14 +13,22 @@ object Hangman extends App {
     } while (difficulty != "easy" && difficulty != "hard")
     difficulty
   }
-  // Only 1 symbol can be written (only letter) in one guess
+  /**
+   * Checks if input line is a valid guess
+   * Only 1 symbol can be written and only lowercase letter in one guess
+   * @param line input from user
+   * @return true if guess is valid
+   */
   def isValidGuess(line: String) = line.length == 1 && ('a' to 'z').contains(line.head)
 
   val difficulty = getDifficultyFromUser()
   val wordToGuess = (new WordList).getWord(difficulty)
-  var guesses = Set[Char]()
+  var guesses = Set[Char]() // Set of guessed letters
   var wrongGuessesLeft = 10
 
+  /**
+   * Current guess word progress. Updated after every guess with correctly guessed letters.
+   */
   var wordProgress = "_" * wordToGuess.length
 
   while (wrongGuessesLeft > 0 && wordToGuess != wordProgress) {
