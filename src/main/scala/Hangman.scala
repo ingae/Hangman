@@ -1,13 +1,16 @@
 object Hangman extends App {
+  // Description of the game
+  println("Hangman game.\nHow to play:\nGuess letters until you can figure out the word. If it takes you too many guesses, you lose.")
+  // Player needs to choose difficulty of word -> easy or hard
   def getDifficultyFromUser(): String = {
     var difficulty = "unknown"
     do {
-      println("Do you want an easy word or a hard word? [easy/hard]")
+      println("\nChoose an easy word (write 'easy') or a hard word (write 'hard'):")
       difficulty = scala.io.StdIn.readLine()
     } while (difficulty != "easy" && difficulty != "hard")
     difficulty
   }
-
+  // Only 1 symbol can be written (only letter) in one guess
   def isValidGuess(line: String) = line.length == 1 && ('a' to 'z').contains(line.head)
 
   val difficulty = getDifficultyFromUser()
@@ -21,7 +24,7 @@ object Hangman extends App {
     print(s"${wordProgress.mkString(" ")} [Wrong guesses left: ${wrongGuessesLeft}] Letter : ")
     val line = scala.io.StdIn.readLine()
     if (!isValidGuess(line)) println(s"Invalid guess -> '${line}'!")
-    else if (guesses.contains(line.head)) println("You already guessed this letter.")
+    else if (guesses.contains(line.head)) println("You guessed this letter already.")
     else {
       val letter: Char = line.head
       guesses += letter
@@ -35,7 +38,10 @@ object Hangman extends App {
     }
   }
   if (wordToGuess == wordProgress)
-    println(s"Congratulations you correctly guessed the word: $wordToGuess!")
-  else
-    println(s"Too bad! The word was: $wordToGuess")
+    println(s"Congratulations, you guessed the word: $wordToGuess!")
+  else {
+    println(s"You lose! The word was: $wordToGuess! ")
+    // Printing hangman
+    println("___\n |\n |o\n/|\\\n/ \\")
+  }
 }
